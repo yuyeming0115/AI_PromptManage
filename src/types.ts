@@ -11,6 +11,7 @@ export interface Prompt {
   useCount: number
   createdAt: number
   updatedAt: number
+  tags?: string[]
 }
 
 export const BUILT_IN_IDS = ['all', 'general', 'code', 'writing'] as const

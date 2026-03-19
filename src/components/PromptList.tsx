@@ -12,7 +12,11 @@ export function PromptList() {
     .filter((p) => {
       if (!searchQuery) return true
       const q = searchQuery.toLowerCase()
-      return p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q)
+      return (
+        p.title.toLowerCase().includes(q) ||
+        p.content.toLowerCase().includes(q) ||
+        (p.tags ?? []).some((t) => t.toLowerCase().includes(q))
+      )
     })
 
   const sorted = [...filtered].sort((a, b) =>

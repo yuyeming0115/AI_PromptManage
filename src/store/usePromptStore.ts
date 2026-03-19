@@ -61,7 +61,7 @@ interface PromptStore extends StorageData {
 
   addPrompt: (content: string, categoryId: string) => void
   deletePrompt: (id: string) => void
-  updatePrompt: (id: string, patch: Partial<Pick<Prompt, 'title' | 'content' | 'categoryId'>>) => void
+  updatePrompt: (id: string, patch: Partial<Pick<Prompt, 'title' | 'content' | 'categoryId' | 'tags'>>) => void
   incrementUseCount: (id: string) => void
   setActiveCategory: (id: string) => void
   setFloatBtnPos: (pos: { x: number; y: number }) => void

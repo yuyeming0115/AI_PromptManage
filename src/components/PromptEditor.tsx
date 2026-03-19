@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { usePromptStore } from '../store/usePromptStore'
 
 export function PromptEditor() {
@@ -12,6 +12,9 @@ export function PromptEditor() {
   const [title, setTitle] = useState(prompt?.title ?? '')
   const [content, setContent] = useState(prompt?.content ?? '')
   const [categoryId, setCategoryId] = useState(prompt?.categoryId ?? 'general')
+  const [tags, setTags] = useState<string[]>(prompt?.tags ?? [])
+  const [tagInput, setTagInput] = useState('')
+  const tagInputRef = useRef<HTMLInputElement>(null)
 
   if (!prompt) return null
 
@@ -19,8 +22,21 @@ export function PromptEditor() {
     const trimmed = content.trim()
     if (!trimmed) return
     const finalTitle = title.trim() || trimmed.slice(0, 20)
-    updatePrompt(prompt!.id, { title: finalTitle, content: trimmed, categoryId })
+    updatePrompt(prompt!.id, { title: finalTitle, content: trimmed, categoryId, tags })
     setEditingPromptId(null)
+  }
+
+  function handleTagKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const t = tagInput.trim()
+      if (t && !tags.includes(t)) setTags((prev) => [...prev, t])
+      setTagInput('')
+    }
+  }
+
+  function removeTag(tag: string) {
+    setTags((prev) => prev.filter((t) => t !== tag))
   }
 
   const canSave = content.trim().length > 0
@@ -81,6 +97,39 @@ export function PromptEditor() {
             onChange={(e) => setContent(e.target.value)}
             rows={9}
             className="resize-none text-sm border border-gray-200 rounded-lg px-2 py-1.5 outline-none leading-5"
+            style={{ transition: 'border-color 0.1s' }}
+            onFocus={(e) => (e.target.style.borderColor = '#818cf8')}
+            onBlur={(e) => (e.target.style.borderColor = '#e5e7eb')}
+          />
+        </div>
+
+        {/* Tags */}
+        <div>
+          <label className="text-xs text-gray-400 mb-1.5 block">标签</label>
+          <div className="flex flex-wrap gap-1 mb-1.5">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="flex items-center gap-0.5 text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-500"
+              >
+                {tag}
+                <button
+                  onClick={() => removeTag(tag)}
+                  className="ml-0.5 text-indigo-300 hover:text-indigo-500 leading-none"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+          <input
+            ref={tagInputRef}
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={handleTagKeyDown}
+            placeholder="输入标签后按 Enter"
+            className="w-full text-sm border border-gray-200 rounded-lg px-2 py-1.5 outline-none"
             style={{ transition: 'border-color 0.1s' }}
             onFocus={(e) => (e.target.style.borderColor = '#818cf8')}
             onBlur={(e) => (e.target.style.borderColor = '#e5e7eb')}
