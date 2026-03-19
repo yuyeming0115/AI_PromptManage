@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm init:*)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(pnpm --version)",
+      "Bash(npx pnpm:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm wxt:*)",
+      "Bash(npx tsc:*)",
+      "Bash(powershell -Command \"Get-Content 'E:\\\\AICoding\\\\AI_PromptManage\\\\Supabase 配置URL+anon key.txt' -Encoding Unicode\")",
+      "Bash(node:*)",
+      "Bash(npx wxt:*)",
+      "Bash(node -e \"require\\(''sharp''\\)\")",
+      "Bash(node -e \"require\\(''''canvas''''\\)\")"
+    ]
+  }
+}
