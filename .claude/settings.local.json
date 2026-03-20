@@ -9,11 +9,51 @@
       "Bash(pnpm add:*)",
       "Bash(pnpm wxt:*)",
       "Bash(npx tsc:*)",
-      "Bash(powershell -Command \"Get-Content 'E:\\\\AICoding\\\\AI_PromptManage\\\\Supabase 配置URL+anon key.txt' -Encoding Unicode\")",
-      "Bash(node:*)",
       "Bash(npx wxt:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(powershell -Command \"Get-Content 'E:\\\\AICoding\\\\AI_PromptManage\\\\Supabase 配置URL+anon key.txt' -Encoding Unicode\")",
       "Bash(node -e \"require\\(''sharp''\\)\")",
       "Bash(node -e \"require\\(''''canvas''''\\)\")"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(rm -r:*)",
+      "Bash(rmdir:*)",
+      "Bash(del /s:*)",
+      "Bash(del /f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git clean -fd:*)",
+      "Bash(git clean -f:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd E:/AICoding/AI_PromptManage && npx tsc --noEmit 2>&1 | tail -15"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd E:/AICoding/AI_PromptManage && npx wxt build 2>&1 | tail -15"
+          }
+        ]
+      }
     ]
   }
 }
