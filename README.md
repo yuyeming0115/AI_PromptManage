@@ -47,7 +47,7 @@ pnpm build
 
 1. 创建 [Supabase](https://supabase.com) 项目（免费，永久可用）
 2. 在 SQL Editor 中执行 `supabase/schema.sql`
-3. 在 Dashboard → Realtime 中开启 `prompts` 和 `categories` 表
+3. 在 Supabase Table Editor 中分别对 `prompts` 和 `categories` 表点击顶部 **"Enable Realtime"** 按钮
 4. 创建 `.env` 文件：
 
 ```env
@@ -68,7 +68,13 @@ pnpm build
 3. 点击「加载已解压的扩展程序」，选择 `.output/chrome-mv3/` 目录
 4. 点击扩展图标，注册/登录同一个账号
 
-登录后数据自动双向同步，增删改实时生效。
+登录后自动触发同步并建立 Realtime 订阅，增删改实时推送到所有已登录设备。
+
+### 同步机制说明
+
+- **登录时** 自动执行双向合并同步（Last-Write-Wins，以 `updatedAt` 为准）
+- **Realtime** 订阅建立后，任一设备的增删改会实时推送到其他设备，无需手动刷新
+- **手动同步** 可点击云端同步页面的「立即同步」按钮强制重新拉取
 
 ### Supabase 免费套餐说明
 
