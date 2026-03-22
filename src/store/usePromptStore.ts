@@ -142,6 +142,7 @@ export const usePromptStore = create<PromptStore>((set, get) => {
       supabase.auth.onAuthStateChange((_event: unknown, session: { user: { id: string; email?: string } } | null) => {
         if (session?.user) {
           set({ user: { id: session.user.id, email: session.user.email ?? '' } })
+          get().syncNow()
         } else {
           set({ user: null })
         }
